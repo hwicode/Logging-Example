@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <appender name="CLOUD" class="com.google.cloud.logging.logback.LoggingAppender">
+        <!-- Optional : filter logs at or above a level -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <log>application.log</log> <!-- Optional : default java.log -->
+        <resourceType>gce_instance</resourceType>
+        <flushLevel>WARN</flushLevel> <!-- Optional : default ERROR -->
+
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <timestampPattern>yyyy-MM-dd HH:mm:ss.SSS</timestampPattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CLOUD"/>
+    </root>
+</configuration>
