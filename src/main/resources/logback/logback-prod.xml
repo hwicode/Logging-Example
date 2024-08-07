@@ -10,10 +10,6 @@
         <log>application.log</log> <!-- Optional : default java.log -->
         <resourceType>gce_instance</resourceType>
         <flushLevel>WARN</flushLevel> <!-- Optional : default ERROR -->
-
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <timestampPattern>yyyy-MM-dd HH:mm:ss.SSS</timestampPattern>
-        </encoder>
     </appender>
 
     <root level="INFO">
