@@ -27,7 +27,16 @@ public class ExampleController {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
-        log.warn("예외 발생함 : ", ex);
+        String message = ex.getMessage();
+        Throwable cause = ex.getCause();
+        StringBuilder logMessage = new StringBuilder("Exception occurred: ").append(message);
+
+        while (cause != null) {
+            logMessage.append(" | Caused by: ").append(cause.getMessage());
+            cause = cause.getCause();
+        }
+
+        log.warn("예외 발생함 : {}", logMessage);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ex.getMessage());
     }
