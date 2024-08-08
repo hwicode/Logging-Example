@@ -19,6 +19,7 @@ public class ExampleController {
 
     @GetMapping("/e")
     public String causeError() {
+        log.info("예제 메시지 : {}", "message");
         throw new IllegalStateException(new IllegalArgumentException(new RuntimeException("컨트롤러에서 에러가 발생함")));
     }
 }
