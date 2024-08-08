@@ -21,22 +21,16 @@ public class ExampleController {
 
     @GetMapping("/e")
     public String causeError() {
-        log.info("예제 메시지 : {}", "message");
-        throw new IllegalStateException(new IllegalArgumentException(new RuntimeException("컨트롤러에서 에러가 발생함")));
+        log.info("예제 메시지 e : {}", "message");
+        throw new IllegalStateException("컨트롤러에서 에러가 발생함", new RuntimeException("외부 시스템에서 에러가 발생함"));
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
         String message = ex.getMessage();
-        Throwable cause = ex.getCause();
-        StringBuilder logMessage = new StringBuilder("Exception occurred: ").append(message);
+        String causeMessage = ex.getCause() == null ? null : ex.getCause().getMessage();
 
-        while (cause != null) {
-            logMessage.append(" | Caused by: ").append(cause.getMessage());
-            cause = cause.getCause();
-        }
-
-        log.warn("예외 발생함 : {}", logMessage);
+        log.warn("예외 발생함 : {}, 예외 원인 : {}", message, causeMessage);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ex.getMessage());
     }
