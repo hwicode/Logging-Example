@@ -29,8 +29,13 @@ public class ExampleController {
     public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
         String message = ex.getMessage();
         String causeMessage = ex.getCause() == null ? null : ex.getCause().getMessage();
+        String causeClassName = ex.getCause() == null ? null : ex.getCause().getClass().getSimpleName();
 
-        log.warn("예외 발생함 : {}, 예외 원인 : {}", message, causeMessage);
+        log.warn(
+                "예외 메시지 : {}, 예외 클래스 : {}, 예외 원인 메시지 : {}, 예외 원인 클래스 : {}"
+                , message, ex.getClass().getSimpleName()
+                , causeMessage, causeClassName
+        );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ex.getMessage());
     }
